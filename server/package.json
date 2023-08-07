@@ -1,0 +1,11 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "This package is for compiling, testing and serving the BodyMap-contract",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "iconbaypark2900",
+  "license": "ISC"
+}
