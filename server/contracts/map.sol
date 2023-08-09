@@ -1,4 +1,4 @@
-pragma solidity ^0.18.19;
+pragma solidity ^0.8.19;
 
 contract Map {
 
@@ -14,7 +14,7 @@ contract Map {
 
     }
 
-    function setMap(string memeory passwordClearText, string newBasicMap, string newTailorMap) public {
+    function setMap(string memory passwordClearText, string memory newBasicMap, string memory newTailorMap) public {
         bytes32 givenPasswordHash = keccak256(abi.encodePacked(passwordClearText));
         if(passwordHash == givenPasswordHash) {
             basicMap = newBasicMap;
