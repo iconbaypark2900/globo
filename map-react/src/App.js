@@ -26,20 +26,20 @@ function App() {
     setPasswordClearTextTailor(event.target.value);
   }
 
-  const [mapBasic, SetMapBasic] = useState({
+  const [basicMap, SetMapBasic] = useState({
     Height: '', Weight: ''
   });
 
-  const [mapTailor, setMapTailor] = useState({
+  const [tailorMap, setMapTailor] = useState({
     Waist: '', Legs: '', Arms: '', Poisture: ''
   });
 
   const handleMapBasicChange = (e, key) => {
-    SetMapBasic({...mapBasic, [key]: e.target.value});
+    SetMapBasic({...basicMap, [key]: e.target.value});
   }
 
   const handleMapTailorChange = (e, key) => {
-    setMapTailor({...mapTailor, [key]: e.target.value});
+    setMapTailor({...tailorMap, [key]: e.target.value});
   }
 
   async function deployContract() {
@@ -58,19 +58,19 @@ function App() {
 async function updateMaps() {
   try{
   const accounts = await web3.eth.getAccounts();
-  let mapBasicString = JSON.stringify(mapBasic);
-  let mapTailorString = JSON.stringify(mapTailor);
+  let mapBasicString = JSON.stringify(basicMap);
+  let mapTailorString = JSON.stringify(tailorMap);
   const encryptedMapBasic = crypto.AES.encrypt(mapBasicString, passwordClearTextBasic).toString();
   const encryptedMapTailor = crypto.AES.encrypt(mapTailorString, passwordClearTextTailor).toString();
-  await deployContract.methods.setMap(passwordClearText,encryptedMapBasic, encryptedMapTailor).send({from: accounts[0], gas: 5000000});}
+  await deployedContract.methods.setMap(passwordClearText,encryptedMapBasic, encryptedMapTailor).send({from: accounts[0], gas: 5000000});}
   catch (error) {
     console.error("Error updating maps: ", error);
   }
 }
 
 async function loadMaps() {
-  let newMapBasicEncrypted = await deployContract.methods.mapBasic().call();
-  let newMapTailorEncrypted = await deployContract.methods.mapTailor().call();
+  let newMapBasicEncrypted = await deployedContract.methods.basicMap().call();
+  let newMapTailorEncrypted = await deployedContract.methods.tailorMap().call();
 
   let mapBasicBytes = crypto.AES.decrypt(newMapBasicEncrypted, passwordClearTextBasic);
   let mapTailorBytes = crypto.AES.decrypt(newMapTailorEncrypted, passwordClearTextTailor);
@@ -96,18 +96,18 @@ async function loadMaps() {
         <input type='text' onChange={handlePasswordClearTextTailorChanged} />
       </div>
       <h3>Basic Body Map</h3>
-      {Object.keys(mapBasic).map((key) =>(
+      {Object.keys(basicMap).map((key) =>(
         <div key={key}>
           <label>{key}:
-          <input type='text' value={mapBasic[key]} onChange={(e) => handleMapBasicChange(e, key)} />
+          <input type='text' value={basicMap[key]} onChange={(e) => handleMapBasicChange(e, key)} />
           </label> 
           </div>
       ))}
       <h3>Basic Tailor Map</h3>
-      {Object.keys(mapTailor).map((key) =>(
+      {Object.keys(tailorMap).map((key) =>(
         <div key={key}>
           <label>{key}:
-          <input type='text' value={mapTailor[key]} onChange={(e) => handleMapTailorChange(e, key)} />
+          <input type='text' value={tailorMap[key]} onChange={(e) => handleMapTailorChange(e, key)} />
           </label> 
           </div>
       ))}
